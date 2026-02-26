@@ -1,0 +1,5 @@
+psql "host=localhost port=5432 dbname=store_default user=user"
+(password=password)
+
+generate series 10 000 000 -> 10 000
+for that i use $ROWS=10000
