@@ -11,6 +11,16 @@ jobs:
       uses: actions/checkout@v2
 
     #### Добавьте шаг с Flyway-миграциями
+    - name: Run migrations
+      env:
+        PGPASSWORD: ${{ secrets.DB_PASSWORD }}
+      run: |
+        psql \
+          -h ${{ secrets.DB_HOST }} \
+          -p ${{ secrets.DB_PORT }} \
+          -U ${{ secrets.DB_USER }} \
+          -d ${{ secrets.DB_NAME }} \
+          -f ./migrations/V001__create_tables.sql
 
     ### Этот шаг оставьте без изменений
     - name: Download and setup autotests binaries
