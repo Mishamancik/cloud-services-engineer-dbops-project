@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ROWS=10000
+
 PSQL_ADMIN="user"
 PSQL_PASSWORD="password"
 PSQL_HOST="localhost"
@@ -39,9 +41,9 @@ echo "INSERT INTO product_info (product_id, name, price) VALUES (4, 'Нюрен�
 echo "INSERT INTO product_info (product_id, name, price) VALUES (5, 'Мюнхенская', 330.00);" >> init.sql
 echo "INSERT INTO product_info (product_id, name, price) VALUES (6, 'Русская', 189.00);" >> init.sql
 
-echo "INSERT INTO orders (id, status) SELECT i, (array['pending', 'shipped', 'cancelled'])[floor(random() * 3 + 1)] FROM generate_series(1, 10000000) s(i);" >> init.sql
-echo "INSERT INTO orders_date (order_id, status, date_created) SELECT i, (array['pending', 'shipped', 'cancelled'])[floor(random() * 3 + 1)], DATE(NOW() - (random() * (NOW()+'90 days' - NOW()))) FROM generate_series(1, 10000000) s(i);" >> init.sql
-echo "INSERT INTO order_product (quantity, order_id, product_id) SELECT floor(1+random()*50)::int, i, 1 + floor(random()*6)::int % 6 FROM generate_series(1, 10000000) s(i);" >> init.sql
+echo "INSERT INTO orders (id, status) SELECT i, (array['pending', 'shipped', 'cancelled'])[floor(random() * 3 + 1)] FROM generate_series(1, $ROWS) s(i);" >> init.sql
+echo "INSERT INTO orders_date (order_id, status, date_created) SELECT i, (array['pending', 'shipped', 'cancelled'])[floor(random() * 3 + 1)], DATE(NOW() - (random() * (NOW()+'90 days' - NOW()))) FROM generate_series(1, $ROWS) s(i);" >> init.sql
+echo "INSERT INTO order_product (quantity, order_id, product_id) SELECT floor(1+random()*50)::int, i, 1 + floor(random()*6)::int % 6 FROM generate_series(1, $ROWS) s(i);" >> init.sql
 
 psql ${PSQL_CONNECTION} -f init.sql
 
