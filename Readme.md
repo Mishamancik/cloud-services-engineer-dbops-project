@@ -31,3 +31,11 @@ ON TABLES TO cicd;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public
 GRANT USAGE, SELECT, UPDATE
 ON SEQUENCES TO cicd;
+
+# Запрос количества проданных сосисок
+SELECT o.date_created, SUM(op.quantity)
+FROM orders o
+JOIN order_product op ON o.id = op.order_id
+WHERE o.status = 'shipped' AND o.date_created > NOW() - INTERVAL '7 DAY'
+GROUP BY o.date_created
+ORDER BY o.date_created ASC;
