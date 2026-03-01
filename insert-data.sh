@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ROWS=10000
+ROWS=10000000
 
 PSQL_ADMIN="user"
 PSQL_PASSWORD="password"
